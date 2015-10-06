@@ -9,6 +9,9 @@
 
 TBitField::TBitField(int len)
 {
+
+	MemLen=(len+sizeof(TELEM)-1)/sizeof(int);
+	BitLen
 }
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
