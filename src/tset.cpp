@@ -54,14 +54,9 @@ void TSet::DelElem(const int Elem) // исключение элемента мн
 
 TSet& TSet::operator=(const TSet &s) // присваивание
 {
-	if (*this==s)
-		return *this;
-	else
-	{
 		BitField=s.BitField;
 		MaxPower=s.GetMaxPower();
 		return *this;
-	}
 }
 
 int TSet::operator==(const TSet &s) const // сравнение
