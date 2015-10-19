@@ -351,3 +351,41 @@ TEST(TSet, test_na_neskolko_oper)
   updatedSet = set1 * set2 * set3;
   EXPECT_EQ(updatedSet,set4);
 }
+TEST(TSet, sequence_change)
+{
+	TSet set1(4), set2(6), set3(4), set4(5), expSet(6);
+
+	//set1={1,2,3}
+	set1.InsElem(1);
+	set1.InsElem(2);
+	set1.InsElem(3);
+
+	//set2={0,1,3,5}
+	set2.InsElem(0);
+	set2.InsElem(1);
+	set2.InsElem(3);
+	set2.InsElem(5);
+	
+	TSet expinter(6);
+	expinter.InsElem(1);
+	expinter.InsElem(3);
+
+	//set3={2}
+	set3.InsElem(2);
+
+	//set4={1,2,3}
+	set4.InsElem(1);
+	set4.InsElem(2);
+	set4.InsElem(3);
+
+
+	//expSet={0,1,2,3,4}
+	expSet.InsElem(0);
+	expSet.InsElem(1);
+	expSet.InsElem(2);
+	expSet.InsElem(3);
+	expSet.InsElem(4);
+
+  EXPECT_EQ(expSet, (((set1 * set2) + set3) + (~set4)) );
+
+}
