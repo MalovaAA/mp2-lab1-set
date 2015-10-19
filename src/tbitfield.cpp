@@ -189,13 +189,11 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 
 TBitField TBitField::operator~(void) // отрицание
 {
-	TBitField bf2(BitLen);
 	int len=BitLen;
 	TBitField bf2(len);
 	for(int i=0;i<(MemLen-1);i++)
 		bf2.pMem[i]=~pMem[i];
 
-	int a = (MemLen-1)*sizeof(TELEM);
 	for (int i = a; i < BitLen; i++)
 	{
 		if (this->GetBit(i) == 0)
