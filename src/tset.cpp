@@ -91,7 +91,7 @@ TSet TSet::operator-(const int Elem) // разность с элементом
 {
   TBitField temp(MaxPower);
 	temp.SetBit(Elem);
-	TSet result(BitField & temp);
+	TSet result(BitField & ~temp);
 	return result;
 }
 

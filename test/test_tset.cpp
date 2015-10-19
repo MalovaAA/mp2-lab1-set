@@ -295,3 +295,59 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+TEST(TSet, test_na_dobavlenye)
+{
+  const int size2 = 100;
+  const int k = 98;
+  TSet set1(size2), updatedSet(size2),set2(size2);
+  set1.InsElem(0);
+  set1.InsElem(67);
+  //set1 {0,2}
+  set2.InsElem(0);
+  set2.InsElem(67);
+  set2.InsElem(98);
+  //set1 {0,1,2}
+  updatedSet = set1 + k;
+  EXPECT_EQ(updatedSet,set2);
+}
+TEST(TSet, test_na_udalenye)
+{
+  const int size2 = 100;
+  const int k = 98;
+  TSet set1(size2), updatedSet(size2),set2(size2);
+  set1.InsElem(0);
+  set1.InsElem(67);
+  //set1 {0,2}
+  set2.InsElem(0);
+  set2.InsElem(67);
+  set2.InsElem(98);
+  //set1 {0,1,2}
+  updatedSet = set2 - k;
+  EXPECT_EQ(updatedSet,set1);
+}
+TEST(TSet, test_na_neskolko_oper)
+{
+  const int size1 = 9,size2 = 18,size3 = 40,size4=40;
+  TSet set1(size1), updatedSet(size4),set2(size2),set3(size3),set4(size4);
+  set1.InsElem(1);
+  set1.InsElem(4);
+  set1.InsElem(6);
+  set1.InsElem(8);
+  //set1 {1,4,6,8}
+  set2.InsElem(6);
+  set2.InsElem(8);
+  set2.InsElem(11);
+  set2.InsElem(15);
+  set2.InsElem(17);
+  //set2{65}
+  set3.InsElem(6);
+  set3.InsElem(8);
+  set3.InsElem(20);
+  set3.InsElem(24);
+  set3.InsElem(35);
+  set4.InsElem(6);
+  set4.InsElem(8);
+ //set1 {0,1,2}
+  updatedSet = set1 * set2 * set3;
+  EXPECT_EQ(updatedSet,set4);
+}

@@ -11,12 +11,15 @@ TBitField::TBitField(int len)
 {
 	if (len<0) 
 		throw "Negative Length";
-	BitLen=len;
-	MemLen = (BitLen + sizeof(TELEM) - 1) / (sizeof(TELEM));;
-	pMem=new TELEM[MemLen];
-	for (int i = 0; i < MemLen; i++)
+	else
 	{
+		BitLen=len;
+		MemLen = (BitLen + sizeof(TELEM) - 1) / (sizeof(TELEM));;
+		pMem=new TELEM[MemLen];
+		for (int i = 0; i < MemLen; i++)
+		{
 		pMem[i] = 0;
+		}
 	}
 }
 
@@ -113,15 +116,28 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 
 int TBitField::operator==(const TBitField &bf) const // сравнение
 {
-			for(int i=0;i<MemLen;i++)
-			if (pMem[i]!=bf.pMem[i]) 
-				return 0;
-			return 1;
+			int r=1;
+	if (BitLen == bf.BitLen)
+	{
+		for (int i = 0; i < BitLen;i++)
+		{
+			if (GetBit(i)!=bf.GetBit(i))
+			{
+				r = 0;
+				break;
+			}
+		}
+	}
+	else
+	{
+		r = 0;
+	}
+	return r;
 }
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение
 {
-  if (bf.MemLen != MemLen)
+  if (bf.BitLen !=BitLen )
 		return 1;
   else
 		{
@@ -149,20 +165,38 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
 	int maxlen=bf.BitLen;
+
 	if(BitLen>=bf.BitLen)
+	{
 		maxlen=BitLen;
-	TBitField bf2(maxlen);
-	for(int i=0;i<bf.MemLen;i++)
-		bf2.pMem[i]=bf.pMem[i];
-	for(int i=0;i<MemLen;i++)
-		bf2.pMem[i]=bf2.pMem[i]&bf.pMem[i];	
-	return bf2;
+		TBitField bf2(maxlen);
+		for(int i=0;i<bf.MemLen;i++)
+			bf2.pMem[i]=bf.pMem[i];
+		for(int i=0;i<MemLen;i++)
+			bf2.pMem[i]=pMem[i]&bf2.pMem[i];	
+		return bf2;
+	}
+	else
+	{
+		TBitField bf2(maxlen);
+		for(int i=0;i<MemLen;i++)
+			bf2.pMem[i]=pMem[i];
+		for(int i=0;i<bf.MemLen;i++)
+			bf2.pMem[i]=bf.pMem[i] & bf2.pMem[i];	
+		return bf2;
+	}	
 }
 
 TBitField TBitField::operator~(void) // отрицание
 {
 	TBitField bf2(BitLen);
-	for (int i = 0; i < BitLen; i++)
+	int len=BitLen;
+	TBitField bf2(len);
+	for(int i=0;i<(MemLen-1);i++)
+		bf2.pMem[i]=~pMem[i];
+
+	int a = (MemLen-1)*sizeof(TELEM);
+	for (int i = a; i < BitLen; i++)
 	{
 		if (this->GetBit(i) == 0)
 			bf2.SetBit(i);
